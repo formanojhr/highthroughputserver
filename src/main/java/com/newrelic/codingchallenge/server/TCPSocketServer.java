@@ -5,15 +5,11 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import com.newrelic.codingchallenge.constants.Constants;
 import com.newrelic.codingchallenge.handler.IncomingMessageHandler;
 import com.newrelic.codingchallenge.log.LogWriter;
@@ -23,8 +19,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A TCP connection server which satisfies the following requirements
-
- * immediately followed by a server-native newline sequence; or a termination sequence as detailed in #9, below.
+ * immediately followed by a server-native newline sequence; or a termination sequence as detailed in #9,
+ * below.
+ * Listens in port 4000 for client connections. Once accepted a connection hands over the socket to a dedicated
+ * Thread class (@link {@link IncomingMessageHandler}) for I/O for that socket
  * @author mramakrishnan
  */
 public class TCPSocketServer extends Thread {
@@ -73,49 +71,6 @@ public class TCPSocketServer extends Thread {
             }
         }
     }
-
-
-
-
-    /**
-     * Starts a NIO server with given port.
-     * @param port
-     */
-//    public void startServer(int port) throws IOException {
-//        // Open a channel selector
-//        Selector selector = Selector.open();
-//        log.info("Starting the server in the given port {}...", port);
-//        ServerSocketChannel serverSocketChannel = createServerSocketChannel(port);
-//        int ops = serverSocketChannel.validOps();
-//        SelectionKey selectionKey = serverSocketChannel.register(selector, ops, null);
-//        // Start an infinite loop
-//        while (true) {
-//            log.debug("Server select loop ...running");
-//            selector.select();
-//            Set<SelectionKey> keys = selector.selectedKeys();
-//            Iterator<SelectionKey> keyIterator = keys.iterator();
-//            //for each iterator check for accepting a connection
-//            while (keyIterator.hasNext()) {
-//                SelectionKey currentKey = keyIterator.next();
-//
-//                // If key's channel is ready to accept a new socket connection
-//                if (currentKey.isAcceptable()) {
-//                    SocketChannel clientSocket = serverSocketChannel.accept();
-//
-//                    // Adjusts this channel's blocking mode to false
-//                    clientSocket.configureBlocking(false);
-//                    // register the client socket accepted for read op
-//                    clientSocket.register(selector, SelectionKey.OP_READ);
-//
-//                    log.info("Connection Accepted: Local Add {} Remote Add {}", clientSocket.getLocalAddress(),
-//                            clientSocket.getRemoteAddress());
-//                } else if (currentKey.isReadable()) { // handle read operation
-//                    SocketChannel socketChannel = (SocketChannel) currentKey.channel();
-//                    readChannel(socketChannel);
-//                }
-//            }
-//        }
-//    }
 
     /**
      * Starts a server listening for  client connections in the default port.
@@ -205,40 +160,5 @@ public class TCPSocketServer extends Thread {
         } catch (Exception e) {
             log.error("Error shutting down ", port);
         }
-    }
-
-    /**
-     * Create a {@link ServerSocketChannel} in non blocking mode.
-     * @param port
-     * @return the created server socketChannel
-     * @throws IOException
-     */
-    private ServerSocketChannel createServerSocketChannel(int port) throws IOException{
-
-        //Create a socket channel and bind it to the port configured
-        ServerSocketChannel socketChannel = ServerSocketChannel.open();
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", port);
-        // bind socket address
-        socketChannel.bind(inetSocketAddress);
-        //DO NOT block for connection channel
-        socketChannel.configureBlocking(false);
-        return socketChannel;
-        }
-
-    /**
-     * Read
-     * @param socketChannel
-     */
-    private void readChannel(SocketChannel socketChannel) throws IOException {
-        ByteBuffer readBuffer = ByteBuffer.allocate(256);
-        socketChannel.read(readBuffer);
-        String msg = new String(readBuffer.array()).trim();
-        log.debug("Message received: {} ", msg);
-
-//        if (msg.equals("Crunchify")) {
-//            socketChannel.close();
-//            log("\nIt's time to close connection as we got last company name 'Crunchify'");
-//            log("\nServer will keep running. Try running client again to establish new connection");
-//        }
     }
 }
