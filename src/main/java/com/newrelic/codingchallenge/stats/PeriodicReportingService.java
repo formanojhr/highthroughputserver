@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -32,8 +29,8 @@ public class PeriodicReportingService {
     private AtomicInteger totalIntegers = new AtomicInteger(0);// total integers
     private AtomicInteger newDuplicates = new AtomicInteger(0);// new duplicate numbers since last run
     private AtomicInteger newUniqueNos = new AtomicInteger(0);// new unique numbers since last run
-    private HashSet<String> currentSetIntegers = new HashSet<String>();
-    private AtomicBoolean isRun = new AtomicBoolean(true);
+//    private HashSet<String> currentSetIntegers = new HashSet<String>();
+    private ConcurrentHashMap<String, String> seenIntegers= new ConcurrentHashMap<>();
 
     /**
      * A start method to kick off the scheduled task for collecting statistics and printing
@@ -56,7 +53,6 @@ public class PeriodicReportingService {
         if(taskFuture != null) {
             taskFuture.cancel(true);
             taskFuture = null;
-//            this.isRun.set(false);
         }
     }
 
@@ -86,23 +82,22 @@ public class PeriodicReportingService {
     /**
      * Get new input integer and update the values; If the integer has been seen before
      * it will return back a true if not false
+     *
      * @param input
      * @return
      */
     public boolean updateIntegersAndCheckDupe(String input) {
-        synchronized (this.currentSetIntegers) {// sync
-            log.debug("Updating statistics...");
-            if (currentSetIntegers.contains(input)) {// found a duplicate
-                this.newDuplicates.getAndIncrement();
-                return true;
-            } else {
-                this.currentSetIntegers.add(input);// add to the hashset
-                this.uniqueIntegers.getAndIncrement();// not a duplicate so update unique integers
-                this.totalIntegers.getAndIncrement(); // Update total unique count of integers since app start
-            }
-            log.debug("Finished updating statistics.");
+//        synchronized (this.currentSetIntegers) {// sync
+        log.debug("Updating statistics...");
+        if (seenIntegers.containsKey(input)) {// found a duplicate
+            this.newDuplicates.getAndIncrement();
+            return true;
+        } else {
+            this.seenIntegers.put(input, "");// add to the map
+            this.uniqueIntegers.getAndIncrement();// not a duplicate so update unique integers
+            this.totalIntegers.getAndIncrement(); // Update total unique count of integers since app start
         }
+        log.debug("Finished updating statistics.");
         return false;
     }
-
 }
