@@ -28,8 +28,6 @@ public class PeriodicReportingService {
     private AtomicInteger uniqueIntegers = new AtomicInteger(0);// total number of unique integers
     private AtomicInteger totalIntegers = new AtomicInteger(0);// total integers
     private AtomicInteger newDuplicates = new AtomicInteger(0);// new duplicate numbers since last run
-    private AtomicInteger newUniqueNos = new AtomicInteger(0);// new unique numbers since last run
-//    private HashSet<String> currentSetIntegers = new HashSet<String>();
     private ConcurrentHashMap<String, String> seenIntegers= new ConcurrentHashMap<>();
 
     /**
@@ -44,6 +42,9 @@ public class PeriodicReportingService {
                 "for every {} seconds", DEFAULT_METRICS_HARVEST_TIME_INTERVAL);
     }
 
+    /**
+     * Stop and shutdown period task executor
+     */
     public void stopPeriodicTasks(){
         if (executorService != null) {
             log.info("Shutting down periodic executor service");
@@ -81,13 +82,11 @@ public class PeriodicReportingService {
 
     /**
      * Get new input integer and update the values; If the integer has been seen before
-     * it will return back a true if not false
-     *
+     * it will return back a true if not false. Update other metrics for this period
      * @param input
      * @return
      */
     public boolean updateIntegersAndCheckDupe(String input) {
-//        synchronized (this.currentSetIntegers) {// sync
         log.debug("Updating statistics...");
         if (seenIntegers.containsKey(input)) {// found a duplicate
             this.newDuplicates.getAndIncrement();
