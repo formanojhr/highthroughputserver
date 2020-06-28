@@ -13,6 +13,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -87,6 +88,41 @@ public class MainTest {
         Thread.sleep(TimeUnit.MINUTES.toMillis(60));
     }
 
+
+    @Test
+    public void testDupes() throws InterruptedException, IOException {
+
+        // Test something here (optional)
+        System.out.println("Testing");
+
+        Socket socket = new Socket("localhost", SERVER_SOCKET);
+        socket.setKeepAlive(true);
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+        log.info("Connecting to Server on port ..." + SERVER_SOCKET);
+        int min = 0;
+        int max = 999999999;
+        Integer randomNum;
+        List<Integer> integerList = new ArrayList<>();
+        integerList.add(421179925);
+        integerList.add(533436692);
+        integerList.add(533436692);
+        integerList.add(421179925);
+
+        integerList.forEach(integer -> {
+            try {
+                String message = integer.toString() + "\n";
+                writer.write(message);
+                log.info("sending: " + message);
+                writer.flush();
+            } catch (Exception e){
+                log.error("",e);
+            }
+        });
+
+        Thread.sleep(2000);
+    }
+
     @Test
     public void testTerminateCommand() throws InterruptedException, IOException {
         // Test something here (optional)
@@ -134,12 +170,6 @@ public class MainTest {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
         log.info("Connecting to Server on port ..."+SERVER_SOCKET);
-
-        ArrayList<String> companyDetails = new ArrayList<String>();
-
-
-// nextInt is normally exclusive of the top value,
-// so add 1 to make it inclusive
         int min = 0;
         int max = 999999999;
         Integer randomNum;
