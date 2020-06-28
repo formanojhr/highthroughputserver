@@ -20,8 +20,5 @@ public class Main {
         } catch (IOException e){
             log.error("Starting NIO server failed.",e);
         }
-
-
-        // Add your code here
     }
 }
