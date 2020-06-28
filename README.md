@@ -11,8 +11,8 @@ Build
 
 Run the TCP server
 ==================
-From the root of the project run:
-java -jar ./build/libs/coding-challenge-shadow.jar
+From the root of the project run(include the used JVM GC tuning flags):
+java -jar ./build/libs/coding-challenge-shadow.jar -Xms256m -Xmx2048m -XX:ParallelGCThreads=4 -XX:+UseParallelGC -XX:GCTimeRatio=9
 Should start the server logging as below:
 22:42:01.546 [main] INFO  com.newrelic.codingchallenge.Main - Starting TCP server....
 22:42:01.549 [main] INFO  c.n.codingchallenge.log.LogWriter - Opening file for logging numbers.log
