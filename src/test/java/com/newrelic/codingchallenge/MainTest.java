@@ -215,11 +215,11 @@ public class MainTest {
                     buffer.clear();
                     writer.flush();
                     // wait for 2 seconds before sending next message
-                    Thread.sleep(10);
+//                    Thread.sleep(10);
                 }
             } catch (SocketException e) {
                 e.printStackTrace();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
