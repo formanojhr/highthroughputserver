@@ -1,7 +1,6 @@
 package com.newrelic.codingchallenge.stats;
 
 
-import com.sun.javafx.font.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,23 +79,22 @@ public class PeriodicReportingService {
             //now reset values
             uniqueIntegers.set(0);
             newDuplicates.set(0);
-            synchronized (currentSetIntegers) {// synchronize and clear the hashset
-                currentSetIntegers.clear();
-            }
         }
     };
 
 
     /**
-     * Get new input integer and update the values
+     * Get new input integer and update the values; If the integer has been seen before
+     * it will return back a true if not false
      * @param input
+     * @return
      */
-    public void incrementUniqueIntegers(String input) {
+    public boolean updateIntegersAndCheckDupe(String input) {
         synchronized (this.currentSetIntegers) {// sync
             log.debug("Updating statistics...");
-            int newInt = Integer.parseInt(input);
-            if (currentSetIntegers.contains(newInt)) {// found a duplicate
+            if (currentSetIntegers.contains(input)) {// found a duplicate
                 this.newDuplicates.getAndIncrement();
+                return true;
             } else {
                 this.currentSetIntegers.add(input);// add to the hashset
                 this.uniqueIntegers.getAndIncrement();// not a duplicate so update unique integers
@@ -104,6 +102,7 @@ public class PeriodicReportingService {
             }
             log.debug("Finished updating statistics.");
         }
+        return false;
     }
 
 }

@@ -77,19 +77,23 @@ public class IncomingMessageHandler extends Thread {
     }
 
     /**
-     * Process the request and add to the log writer queue for async writing to file
-      * @param msgString
+     * Process the request and add to the log writer queue for async writing to file.
+     * De duplicate the numbers written to logs. If seen before in the entire application lifecycle then
+     * it is a dupe.
+     * @param msgString
      */
     private void processMessageAndWriteToLog(String msgString) {
         log.debug("Processing message " + msgString);
-        if(msgString.contains(Constants.TERMINATE_CMD)){
+        if (msgString.contains(Constants.TERMINATE_CMD)) {
             log.info("Got a shutdown message :" + msgString);
             this.orderShutdown.set(true);
         } else {
             try {
                 if (validPattern.matcher(msgString).matches()) {
-                    this.fileWriterQueue.put(msgString);// add to file queue shared with
-                    this.periodicReportingService.incrementUniqueIntegers(msgString);
+                    boolean isDuplicate = this.periodicReportingService.updateIntegersAndCheckDupe(msgString);
+                    if (!isDuplicate) {// only add to queue if duplicate
+                        this.fileWriterQueue.put(msgString);// add to file queue shared with
+                    }
                 } else {
                     log.debug("Message {} not matching expected pattern is being dropped", msgString);
                 }
