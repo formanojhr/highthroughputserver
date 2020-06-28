@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TCPSocketServer extends Thread {
     private static final Logger log = LoggerFactory.getLogger(TCPSocketServer.class);
-    private static int DEFAULT_SERVER_PORT=9000;
+    private static int DEFAULT_SERVER_PORT=4000;
     private int port;
     private ServerSocket serverSocket;
     private AtomicBoolean running = new AtomicBoolean(false);
