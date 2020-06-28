@@ -3,13 +3,15 @@
 Build instructions
 ==================
 The given build instructions works as they are
+
 Build
 ======
 ./gradlew build -x test (This skips the tests since the test are more of integration tests and needs the server to be running)
-From the root of the project, run the java -jar
+
 
 Run the TCP server
 ==================
+From the root of the project run:
 java -jar ./build/libs/coding-challenge-shadow.jar
 Should start the server logging as below:
 22:42:01.546 [main] INFO  com.newrelic.codingchallenge.Main - Starting TCP server....
