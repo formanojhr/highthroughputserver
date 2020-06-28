@@ -126,4 +126,3 @@ charge.
 If you are planning to use IDEA you can generate the IDEA project files
 by running `./gradlew idea` and directly opening the project folder
 as a project in idea.
-
