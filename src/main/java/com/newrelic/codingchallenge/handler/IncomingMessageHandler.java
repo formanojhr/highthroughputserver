@@ -49,11 +49,12 @@ public class IncomingMessageHandler extends Thread {
 
     @Override
     public void run() {
+        BufferedReader in=null;
         try {
             log.debug("Running message handler thread...");
 
             // Get input and output streams
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String request;
             while(true){// keep reading continuously
                 if((request = in.readLine()) != null) {
@@ -72,6 +73,14 @@ public class IncomingMessageHandler extends Thread {
                     log.error("Error closing socket Local Add {} Remote Add {}", socket.getLocalAddress(),
                             socket.getRemoteSocketAddress());
                 }
+            }
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (Exception e) {
+                log.error("Error closing input stream.", e);
             }
         }
     }
