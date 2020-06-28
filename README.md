@@ -1,4 +1,33 @@
 # coding-challenge
+
+Build instructions
+==================
+The given build instructions works as they are
+Build
+======
+./gradlew build -x test (This skips the tests since the test are more of integration tests and needs the server to be running)
+From the root of the project, run the java -jar
+
+Run the TCP server
+==================
+java -jar ./build/libs/coding-challenge-shadow.jar
+Should start the server logging as below:
+22:42:01.546 [main] INFO  com.newrelic.codingchallenge.Main - Starting TCP server....
+22:42:01.549 [main] INFO  c.n.codingchallenge.log.LogWriter - Opening file for logging numbers.log
+22:42:01.549 [main] INFO  c.n.codingchallenge.log.LogWriter - File numbers.log exists; Clearing it.
+22:42:01.550 [main] INFO  c.n.c.server.TCPSocketServer - Starting log writer..
+22:42:01.551 [main] INFO  c.n.c.stats.PeriodicReportingService - Starting Periodic metrics collector's task
+22:42:01.552 [main] INFO  c.n.c.stats.PeriodicReportingService - Periodic metrics collector service started and will collect the metrics periodically for every 10 seconds
+22:42:01.552 [main] INFO  c.n.c.server.TCPSocketServer - Starting shutdown threads..
+22:42:01.552 [main] INFO  c.n.c.server.TCPSocketServer - Starting server in port 4000
+22:42:01.558 [main] INFO  c.n.c.server.TCPSocketServer - Started server. Server listening in port 4000
+
+
+Every 10 seconds should log below statistics
+22:42:16.556 [pool-2-thread-1] INFO  c.n.c.stats.PeriodicReportingService - Received 0 unique numbers, 0 duplicates. Unique total: 0
+2
+
+                                                  
 Requirements implemented
 ========================
 The Application must accept input from at most 5 concurrent clients on TCP/IP port 4000.
