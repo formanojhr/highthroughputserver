@@ -36,6 +36,7 @@ Java NIO was considered but since the maximum connections is restricted and the 
 
 
 This exercise was written to show off threading design in java.
+
 Build instructions
 ==================
 The given build instructions works as they are
@@ -43,7 +44,6 @@ The given build instructions works as they are
 Build
 ======
 ./gradlew build -x test (This skips the tests since the test are more of integration tests and needs the server to be running)
-
 
 Run the TCP server
 ==================
