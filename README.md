@@ -3,39 +3,7 @@
 
 Design Considerations
 =====================
-•	Maximum throughput - This comes down to a few aspects of design and testing form experience. 
-   o	Optimal threading design to avoid threads spent time in blocked state on I/O, monitors etc 
-   o	Usage Appropriate Concurrency datastructures and locking levels for Java code
-   o	JVM parameters tuning (Optimal JVM collector algo etc)
-   o	Resources (Memory /CPU)
-
-•	Server Socket acceptor thread logic is under TCPSocketServer. This thread’s main responsibility is to listen to client connection requests and hand over managing I/O for each client connection to a new thread.  Prevents any long running client read preventing other connection requests from being blocked. This thread listens infinitely until a terminate command is received. This maintains a state to understand the total number of client connections added to implement req 1 (at most 5 connections)
-•	Client Socket I/O thread: The design uses a one thread per established client socket connection model. Reading from an established client connection is handled by IncomingMessageHandler.
-•	Log writer : Since logging in another I/O work (other than reading client socket) it is done in another thread asynchronously (LogWriter) and order is not important in what order it goes to log based on requirement. A runnable thread that does the following:
-o	Shares a LinkedBlockingQueue between the IncomingMessageHandler and the LogFileWriter in the producer consumer pattern.
-o	This is done to make the writing to log file an asynchronous task to avoid blocking the incoming message listening thread from the client
-•	Periodic StatisticsService
-o	This  service’s primary responsibilities are twofold	
-1.	 Keep up to date the 3 metrics requested. 
-•	Each of the client reading processing will update this service when a valid 9 digit message is read. 
-•	Concurrency choices: Maintains a ConcurrentHashMap(Key is the integers seen, value is just a placeholder empty sting)) to check for dupes through the entire lifetime of the app. (The assumption here is that this is not a production so it is fine since this map could contain large amount of unique integers seen in history). Needs more calculation here. Java util concurrency packages are used to maintain the lowest level of atomicity of code e.g. AtomicInteger etc. At max 5 threads could be updating the state here. This service is ready for more thread concurrency.
-2.	Periodic printing of report to the standard out is done by a scheduled harvest task.   At the end of the harvest 10 sec cycle the period level stat values are set back to 0.
-•	private final Runnable periodicStatsTask = new Runnable() {
-    @Override
-    public void run() {
-        try {
-            logStatistics();
-        } catch (Exception e) {
-            log.error("Exception in the periodic reporting thread", e);
-        }
-    }
-
-
-Other Considerations: 
-=====================
-Java NIO was considered but since the maximum connections is restricted and the general understanding is that java nio helps scale and optimize for more client connections (100s or more avoid maxing threads handling client connection and read requests). In a typical production scenario for 100s/1000s of client requests NIO scales the best. 
-
-This exercise was written to show off threading design in java.
+https://github.com/formanojhr/highthroughputserver/blob/master/HighThroughputServerDesignTestNotes.pdf
 
 Build instructions
 ==================
