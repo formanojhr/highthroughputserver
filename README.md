@@ -3,11 +3,11 @@
 
 Design Considerations
 =====================
-•	Maximum throughput This comes down to a few aspects of design and testing form experience. 
-o	Optimal threading design to avoid threads spent time in blocked state on I/O, monitors etc 
-o	Usage Appropriate Concurrency datastructures and locking levels for Java code
-o	JVM parameters tuning (Optimal JVM collector algo etc)
-o	Resources (Memory /CPU)
+•	Maximum throughput - This comes down to a few aspects of design and testing form experience. 
+   o	Optimal threading design to avoid threads spent time in blocked state on I/O, monitors etc 
+   o	Usage Appropriate Concurrency datastructures and locking levels for Java code
+   o	JVM parameters tuning (Optimal JVM collector algo etc)
+   o	Resources (Memory /CPU)
 
 •	Server Socket acceptor thread logic is under TCPSocketServer. This thread’s main responsibility is to listen to client connection requests and hand over managing I/O for each client connection to a new thread.  Prevents any long running client read preventing other connection requests from being blocked. This thread listens infinitely until a terminate command is received. This maintains a state to understand the total number of client connections added to implement req 1 (at most 5 connections)
 •	Client Socket I/O thread: The design uses a one thread per established client socket connection model. Reading from an established client connection is handled by IncomingMessageHandler.
@@ -32,8 +32,8 @@ o	This  service’s primary responsibilities are twofold
 
 
 Other Considerations: 
+=====================
 Java NIO was considered but since the maximum connections is restricted and the general understanding is that java nio helps scale and optimize for more client connections (100s or more avoid maxing threads handling client connection and read requests). In a typical production scenario for 100s/1000s of client requests NIO scales the best. 
-
 
 This exercise was written to show off threading design in java.
 
