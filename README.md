@@ -5,9 +5,6 @@ Design Considerations
 =====================
 https://github.com/formanojhr/highthroughputserver/blob/master/HighThroughputServerDesignTestNotes.pdf
 
-Build instructions
-==================
-The given build instructions works as they are
 
 Build
 ======
@@ -59,9 +56,6 @@ The total number of unique numbers received for this run of the Application.
 Example text for #8: Received 50 unique numbers, 2 duplicates. Unique total: 567231
 
 If any connected client writes a single line with only the word "terminate" followed by a server-native newline sequence, the Application must disconnect all clients and perform a clean shutdown as quickly as possible.
-Coding Challenge Build Framework
-
-
 
 ## Install Java
 It is recommended you install Java 1.8 from Oracle.
