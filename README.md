@@ -61,19 +61,10 @@ Example text for #8: Received 50 unique numbers, 2 duplicates. Unique total: 567
 If any connected client writes a single line with only the word "terminate" followed by a server-native newline sequence, the Application must disconnect all clients and perform a clean shutdown as quickly as possible.
 Coding Challenge Build Framework
 
-## Starter build framework for the coding challenge
-
-First, you do not need to use this starter framework for your project.
-If you would rather use a different build system (maven, javac, ...)
-you are free to so long as you provide clear commands to build your
-project and start your server.  Failure to do so will invalidate your
-submission.
 
 
 ## Install Java
-
-This coding challenge is in Java so it is recommended you install Java
-1.8 from Oracle.
+It is recommended you install Java 1.8 from Oracle.
 
 
 ## Gradle
@@ -89,8 +80,6 @@ anything other than java.
 All source code should be located in the `src/main/java` folder.
 If you wish to write any tests (not a requirement) they should be
 located in the `src/test/java` folder.
-
-A starter `Main.java` file has been provided in the `com/newrelic/codingchallenge` package under `src/main/java`.
 
 
 ### Dependencies
