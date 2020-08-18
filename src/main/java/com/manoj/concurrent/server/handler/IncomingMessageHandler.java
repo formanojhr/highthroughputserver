@@ -1,8 +1,8 @@
-package com.newrelic.codingchallenge.handler;
+package com.manoj.concurrent.server.handler;
 
-import com.newrelic.codingchallenge.constants.Constants;
-import com.newrelic.codingchallenge.log.LogWriter;
-import com.newrelic.codingchallenge.stats.PeriodicReportingService;
+import com.manoj.concurrent.server.constants.Constants;
+import com.manoj.concurrent.server.log.LogWriter;
+import com.manoj.concurrent.server.stats.PeriodicReportingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;

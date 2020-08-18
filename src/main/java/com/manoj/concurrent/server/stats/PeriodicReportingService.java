@@ -1,12 +1,10 @@
-package com.newrelic.codingchallenge.stats;
+package com.manoj.concurrent.server.stats;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

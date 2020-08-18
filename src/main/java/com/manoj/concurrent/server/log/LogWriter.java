@@ -1,6 +1,6 @@
-package com.newrelic.codingchallenge.log;
+package com.manoj.concurrent.server.log;
 
-import com.newrelic.codingchallenge.constants.Constants;
+import com.manoj.concurrent.server.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

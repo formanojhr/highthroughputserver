@@ -1,7 +1,7 @@
-package com.newrelic.codingchallenge;
+package com.manoj.concurrent.server;
 
 
-import com.newrelic.codingchallenge.server.TCPSocketServer;
+import com.manoj.concurrent.server.server.TCPSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

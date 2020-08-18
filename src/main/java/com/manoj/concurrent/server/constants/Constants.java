@@ -1,4 +1,4 @@
-package com.newrelic.codingchallenge.constants;
+package com.manoj.concurrent.server.constants;
 
 /**
  *  A set of constants used in the application

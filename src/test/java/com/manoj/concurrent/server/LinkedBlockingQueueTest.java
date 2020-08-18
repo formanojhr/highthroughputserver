@@ -1,4 +1,4 @@
-package com.newrelic.codingchallenge;
+package com.manoj.concurrent.server;
 
 import org.junit.Test;
 

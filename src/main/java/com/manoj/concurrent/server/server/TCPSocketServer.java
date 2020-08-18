@@ -1,4 +1,4 @@
-package com.newrelic.codingchallenge.server;
+package com.manoj.concurrent.server.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -9,10 +9,11 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import com.newrelic.codingchallenge.constants.Constants;
-import com.newrelic.codingchallenge.handler.IncomingMessageHandler;
-import com.newrelic.codingchallenge.log.LogWriter;
-import com.newrelic.codingchallenge.stats.PeriodicReportingService;
+
+import com.manoj.concurrent.server.handler.IncomingMessageHandler;
+import com.manoj.concurrent.server.constants.Constants;
+import com.manoj.concurrent.server.log.LogWriter;
+import com.manoj.concurrent.server.stats.PeriodicReportingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TCPSocketServer extends Thread {
     private static final Logger log = LoggerFactory.getLogger(TCPSocketServer.class);
-    private static int DEFAULT_SERVER_PORT=4000;
+    private static int DEFAULT_SERVER_PORT=9000;
     private int port;
     private ServerSocket serverSocket;
     private AtomicBoolean running = new AtomicBoolean(false);
