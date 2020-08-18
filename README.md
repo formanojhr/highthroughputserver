@@ -35,7 +35,6 @@ Other Considerations:
 Java NIO was considered but since the maximum connections is restricted and the general understanding is that java nio helps scale and optimize for more client connections (100s or more avoid maxing threads handling client connection and read requests). In a typical production scenario for 100s/1000s of client requests NIO scales the best. 
 
 
-
 This exercise was written to show off threading design in java.
 Build instructions
 ==================
@@ -64,11 +63,9 @@ Should start the server logging as below:
 
 Every 10 seconds should log below statistics
 22:42:16.556 [pool-2-thread-1] INFO  c.n.c.stats.PeriodicReportingService - Received 0 unique numbers, 0 duplicates. Unique total: 0
-2
-
-                                                  
-Requirements implemented
-========================
+                                          
+Requirements
+============
 The Application must accept input from at most 5 concurrent clients on TCP/IP port 4000.
 
 Input lines presented to the Application via its socket must either be composed of exactly nine decimal digits (e.g.: 314159265 or 007007009) immediately followed by a server-native newline sequence; or a termination sequence as detailed in #9, below.
