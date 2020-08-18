@@ -30,12 +30,6 @@ o	This  service’s primary responsibilities are twofold
         }
     }
 
-    private void logStatistics() {
-        log.info("Received {} unique numbers, {} duplicates. Unique total: {}",uniqueIntegers.get(),
-                newDuplicates.get(), totalIntegers.get());
-        //now reset values
-
-
 
 Other Considerations: 
 Java NIO was considered but since the maximum connections is restricted and the general understanding is that java nio helps scale and optimize for more client connections (100s or more avoid maxing threads handling client connection and read requests). In a typical production scenario for 100s/1000s of client requests NIO scales the best. 
